@@ -12,11 +12,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Random;
+
 public class Juego extends AppCompatActivity {
+
+
+
+
     int intentos = 0;
     ImageView im;
     boolean terminado = false;
-    String  palabras[] = new String[]{"avion","madera","tejado"};
+    String  palabras[] = new String[]{"avion","madera","tejado","pajaro","hielo","teclado","avispa","casa","delfin","iglesia",
+    "mar","tiburon","jirafa","medusa","movil","television",};
     int[] ids = new int[]{R.drawable.horca0,R.drawable.horca0,R.drawable.horca1,R.drawable.horca2,
                           R.drawable.horca3,R.drawable.horca4,R.drawable.horca5,R.drawable.horca6,
                           R.drawable.horca7,R.drawable.horca8,R.drawable.horca9};
@@ -29,10 +36,21 @@ public class Juego extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_juego);
-        palabraAleatoria = "test";
+        Bundle datos = this.getIntent().getExtras();
+
+
+        int variableNumeroJugadoresMain = datos.getInt("jugadoresMenu");
+        if (variableNumeroJugadoresMain==1){
+            String variablepalabraMistery = datos.getString("palabraSegundoJugador");
+            palabraAleatoria=variablepalabraMistery;
+        }else{
+            Random r1 = new Random();
+            int pala= r1.nextInt(palabras.length);
+            palabraAleatoria = palabras[pala];
+        }
         textoPantalla= (TextView)findViewById(R.id.textoDescubrir);
         ponerPalabraMistery();
-        textoPantalla.setLetterSpacing(0.40f);
+        textoPantalla.setLetterSpacing(0.35f);
         im = findViewById(R.id.fotosahorcado);
     }
 
@@ -72,7 +90,7 @@ public class Juego extends AppCompatActivity {
 
         if (intentos== ids.length-1){
             terminado=true;
-            Toast.makeText(this, "Perdido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Has muerto, la palabra es "+palabraAleatoria, Toast.LENGTH_SHORT).show();
         }
     }
 
